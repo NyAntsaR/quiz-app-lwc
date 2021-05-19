@@ -18,7 +18,7 @@ export default class QuizApp extends LightningElement {
                 a: "public ExtendedController(ApexPages.StandardController cntrl) { }",
                 b: "ApexPages.currentPage().getParameters() put(input', 'TestValue)",
                 c: "Test.setCurrentPage(pageRef)",
-                d: "String nextPage = controller.save().getUrl();"
+                
             },
             correctAnswer: "a"
         },{
@@ -26,7 +26,8 @@ export default class QuizApp extends LightningElement {
             question: "Which statement about the Lookup Relationship between a Custom Object and a Standard Object is correct?",
             answer: {
                 a: "The Lookup Relationship on the Custom Object can prevent the deletion of the Standard Object.",
-                b: "The Custom Object will be deleted when the referenced Standard Object is delete"
+                b: "The Custom Object will be deleted when the referenced Standard Object is delete",
+                c: "String nextPage = controller.save().getUrl();"
             },
             correctAnswer: "a"
         }, {
@@ -35,8 +36,7 @@ export default class QuizApp extends LightningElement {
             answer: {
                 a: ".svg",
                 b: ".apex",
-                c: ".js",
-                d: ".html"
+                c: ".js"
             },
             correctAnswer: "b"
         }
@@ -44,17 +44,28 @@ export default class QuizApp extends LightningElement {
     //for storing answers
     selected = {}
 
+    //store correct answer
+    correctAnswers = 0;
+
+    // store submitted answer
+    isSubmitted = false;
+
     changeHandler(event) {
         const {name, value} = event.target;
+        //add the selected answers to selected {}
         this.selected = {...this.selected, [name]:value};
     }
 
-    submitHandler() {
-
+    submitHandler(event) {
+        event.preventDefault();
+        let correct = this.myQuestions.filter(item => this.selected[item.id] === item.correctAnswer);
+        this.correctAnswers = correct.length;
+        this.isSubmitted = true;
     }
 
     resetHandler() {
-
+        this.selected = {};
+        this.correctAnswers = 0;
     }
 
     get allNotSelected() {
