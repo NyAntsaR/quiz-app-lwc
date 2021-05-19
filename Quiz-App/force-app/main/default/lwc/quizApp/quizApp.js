@@ -66,10 +66,15 @@ export default class QuizApp extends LightningElement {
     resetHandler() {
         this.selected = {};
         this.correctAnswers = 0;
+        this.isSubmitted = false;
     }
 
     get allNotSelected() {
         return !(Object.keys(this.selected).length === this.myQuestions.length);
+    }
+
+    get isScoredColor() {
+        return `slds-text-heading_large ${this.myQuestions.length === this.correctAnswers ? 'slds-text-color_success' : 'slds-text-color_error'}`;
     }
 
 }
